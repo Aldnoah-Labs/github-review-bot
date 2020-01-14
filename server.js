@@ -19,10 +19,11 @@ app.use(morgan('dev'));
 app.post('/github', (request, response) => {
     let githubData = helpers.parseGithubData(JSON.parse(request.body.payload));
 
+    console.log(githubData);
     if (githubData.action === constants.REVIEW_REQUESTED) {
 
         // Send information to Slack
-        helpers.getRealName(githubData.reviewer)
+        helpers.getRealName(githubData.assigner)
             .then((reviewerName) => {
                 console.log(reviewerName + "telah review request");
                 response.json({

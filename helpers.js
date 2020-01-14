@@ -4,12 +4,13 @@ const getGithubUrl = (escapedURL) => {
 }
 
 const parseGithubData = (payload) => {
+    console.log('action', payload.action);
+    console.log('user')
+    console.log('url', payload.pull_request.html_url)
     return {
-        assigner: payload.pull_request.user.login || '',
-        reviewer: payload.requested_reviewer ? payload.requested_reviewer.login :
-            (payload.review ? payload.review.user.login : ''),
+        assigner: payload.pull_request.user.login || "",
         PRUrl: getGithubUrl(payload.pull_request.html_url),
-        action: payload.action || '',
+        action: payload.action || "",
         state: payload.review ? payload.review.state : ''
     }
 }
