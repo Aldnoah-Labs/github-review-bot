@@ -3,5 +3,8 @@ module.exports = {
     SUBMITTED: 'submitted',
     APPROVED: 'approved',
     CHANGES_REQUESTED: 'changes_requested',
-    COMMENTED: 'commented'
+    COMMENTED: 'commented',
+    CLOSED: 'closed',
+    REOPENED: 'reopened'
 };
+

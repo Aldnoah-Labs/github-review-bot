@@ -2,7 +2,8 @@ const request = require('request-promise');
 
 const slackBody = {
     mkdwn: true,
-    text: `Ridho minta *code review* untuk  <http://www.foo.com|This message *is* a link>`,
+    text: `Ridho minta *code review* untuk 
+    [I'm an inline-style link with title `,
     attachments: [
         {
             "fallback": "Review Requested",
@@ -21,9 +22,9 @@ const slackBody = {
         }
     ]
 }
-
+https://hooks.slack.com/services/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
 request({
-    url: "https://hooks.slack.com/services/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",
+    url: "https://hooks.slack.com/services/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",
     method: 'POST',
     body: slackBody,
     json: true
