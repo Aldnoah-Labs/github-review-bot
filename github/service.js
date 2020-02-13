@@ -1,9 +1,10 @@
+const ACTION = require('./entity');
 
 const getGithubUrl = (escapedURL) => {
     return escapedURL.replace(/\\/, '');
 }
 
-const parseGithubData = (payload) => {
+const parseWebhookPayload = (payload) => {
     return {
         assigner: payload.pull_request.user.login || "",
         PRUrl: getGithubUrl(payload.pull_request.html_url || ""),
@@ -18,24 +19,28 @@ const parseGithubData = (payload) => {
 }
 
 const getMessageBasedOnActionType = (actionType) => {
-    if (actionType === GITHUB_ACTION.APPROVED) {
-        return 'telah *menyetujui* pull request'
-    }
-    else if (actionType === GITHUB_ACTION.CLOSED) {
-        return 'telah *menutup* pull request '
-    }
-    else if (actionType === GITHUB_ACTION.REVIEW_REQUESTED) {
-        return 'telah *membuka* pull request '
-    }
-    else if (actionType === GITHUB_ACTION.REOPENED) {
-        return 'telah *membuka kembali* pull request '
-    } else {
-        return `melakukan action ${action_type} `
-    }
+    switch(actionType) {
+        case ACTION.APPROVED :
+            return 'telah menyetujui pull request '
+        break;
+        case ACTION.CLOSED :
+            return 'telah menutup pull request '
+        break;
+        case ACTION.REVIEW_REQUESTED:
+            return 'telah membuka pull request '
+        break;
+        case ACTION.REOPENED:
+            return 'telah membuka kembali pull request '
+        break;
+        default:
+            return `melakukan action ${actionType} `
+        break;
+    };
 }
 
+
 module.exports = {
-    parseGithubData: parseGithubData,
-    getGithubUrl: getGithubUrl,
-    getMessageBasedOnActionType: getMessageBasedOnActionType
+    parseWebhookPayload,
+    getGithubUrl,
+    getMessageBasedOnActionType
 }

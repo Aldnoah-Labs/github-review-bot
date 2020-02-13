@@ -8,6 +8,4 @@ const ACTION  = {
     REOPENED: 'reopened'
 };
 
-module.exports = {
-    ACTION
-}
+module.exports = ACTION
