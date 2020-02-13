@@ -1,7 +1,4 @@
 
-const request = require('request-promise'),
-    messages = require('./messages');
-
 const getGithubUrl = (escapedURL) => {
     return escapedURL.replace(/\\/, '');
 }
@@ -20,17 +17,25 @@ const parseGithubData = (payload) => {
     }
 }
 
-let sendNotification = ({ assigner, PRUrl, title, action, repository }) => {
-    request({
-        url: process.env.SLACK_WEBHOOKS_URL,
-        method: 'POST',
-        body: messages.createSlackBody(assigner, PRUrl, title, action, repository),
-        json: true
-    })
+const getMessageBasedOnActionType = (actionType) => {
+    if (actionType === GITHUB_ACTION.APPROVED) {
+        return 'telah *menyetujui* pull request'
+    }
+    else if (actionType === GITHUB_ACTION.CLOSED) {
+        return 'telah *menutup* pull request '
+    }
+    else if (actionType === GITHUB_ACTION.REVIEW_REQUESTED) {
+        return 'telah *membuka* pull request '
+    }
+    else if (actionType === GITHUB_ACTION.REOPENED) {
+        return 'telah *membuka kembali* pull request '
+    } else {
+        return `melakukan action ${action_type} `
+    }
 }
 
 module.exports = {
     parseGithubData: parseGithubData,
     getGithubUrl: getGithubUrl,
-    sendNotification: sendNotification
+    getMessageBasedOnActionType: getMessageBasedOnActionType
 }
