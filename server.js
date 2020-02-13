@@ -4,12 +4,14 @@ const express = require('express'),
     app = express(),
     port = process.env.PORT || 1337,
     morgan = require('morgan'),
-    helpers = require('./helpers'),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    telegram = require('./telegram/service.js'),
+    github = require('./github/service'),
+    users = require('./users/service'),
+    config = require('./config')
 
+const telegramBot = telegram.newService(config.TELEGRAM_TOKEN)
 
-
-// Configuration and Module Setup
 app.listen(port, () => {
     console.log('App running on port ' + port);
 });
@@ -22,17 +24,27 @@ app.use(morgan('dev'));
 
 // Get messages from Github
 app.post('/github', (request, response) => {
-    let githubData = helpers.parseGithubData(JSON.parse(request.body.payload));
+    const githubData = github.parseWebhookPayload(JSON.parse(request.body.payload));
 
-    helpers.sendNotification(githubData)
+    telegram.sendPullRequestNotification(telegramBot,config.TELEGRAM_CHANNEL_ID,{
+        messageAction: github.getMessageBasedOnActionType(githubData.action),
+        user: users.getUserBasedOnGithubUsername(githubData.assigner),
+        title: githubData.title,
+        repository: githubData.repository,
+        PRUrl: githubData.PRUrl
+    })
     response.status(200).json({});
 });
 
 
 
+
+
+
 // Just testing :P
 app.get('/ping', (request, response) => {
+
     response.json({
-        "bot": "ping jugs"
+        "bot": "ping juga"
     });
 });

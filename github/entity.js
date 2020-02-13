@@ -1,4 +1,4 @@
-module.exports = {
+const ACTION  = {
     REVIEW_REQUESTED: 'review_requested',
     SUBMITTED: 'submitted',
     APPROVED: 'approved',
@@ -8,3 +8,4 @@ module.exports = {
     REOPENED: 'reopened'
 };
 
+module.exports = ACTION
