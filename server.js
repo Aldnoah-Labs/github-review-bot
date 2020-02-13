@@ -50,19 +50,19 @@ app.use(morgan('dev'));
 
 // Just testing :P
 app.get('/ping', (request, response) => {
-    telegramBot.sendMessage(321013815, `@ridhoassuryadi meminta code review untuk *Svelte Template* bertujuan ${"`bersih bersih`"}`,        {
-        parse_mode: "markdown",
-        reply_markup: {
-            inline_keyboard: [
-                [
-                    {
-                        text: "Buka Code",
-                        url: "https://sean.cat/"
-                    }
-                ]
-            ]
-        }
-    })
+    // telegramBot.sendMessage(_, `@ridhoassuryadi meminta code review untuk *Svelte Template* bertujuan ${"`bersih bersih`"}`,        {
+    //     parse_mode: "markdown",
+    //     reply_markup: {
+    //         inline_keyboard: [
+    //             [
+    //                 {
+    //                     text: "Buka Code",
+    //                     url: "https://sean.cat/"
+    //                 }
+    //             ]
+    //         ]
+    //     }
+    // })
     response.json({
         "bot": "ping jugs"
     });
