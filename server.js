@@ -5,12 +5,15 @@ const express = require('express'),
     port = process.env.PORT || 1337,
     morgan = require('morgan'),
     bodyParser = require('body-parser'),
+    helmet = require('helmet'),
     telegram = require('./telegram/service.js'),
     github = require('./github/service'),
     users = require('./users/service'),
     config = require('./config')
 
 const telegramBot = telegram.newService(config.TELEGRAM_TOKEN)
+
+app.use(helmet())
 
 app.listen(port, () => {
     console.log('App running on port ' + port);

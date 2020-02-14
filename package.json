@@ -8,7 +8,8 @@
   },
   "lint-staged": {
     "*/*.{js,jsx}": [
-      "eslint . --fix", "git add"
+      "eslint . --fix",
+      "git add"
     ]
   },
   "husky": {
@@ -29,6 +30,7 @@
     "request-promise": "^4.2.5"
   },
   "devDependencies": {
+    "helmet": "^3.21.2",
     "husky": "^4.2.3",
     "lint-staged": "^10.0.7",
     "nodemon": "^2.0.2"
