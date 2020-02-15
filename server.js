@@ -6,6 +6,7 @@ const express = require('express'),
     port = process.env.PORT || 1337,
     morgan = require('morgan'),
     bodyParser = require('body-parser'),
+    helmet = require('helmet'),
     telegram = require('./telegram/service.js'),
     github = require('./github/service'),
     users = require('./users/service'),
@@ -25,6 +26,21 @@ const readinessProbe = ({ http }) => async () => {
     }
 }
 
+const terminusOptions = {
+    healthChecks: {
+        '/livez': () => {},
+        '/readyz': readinessProbe({ app })
+      },
+    timeout: 1000, // in miliseconds
+    beforeShutdown: () => {
+        console.log("server will be closed")
+    }
+}
+
+/* 
+ * Express Middlewares 
+ */
+app.use(helmet())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('dev'));
@@ -45,17 +61,6 @@ app.post('/github', (request, response) => {
     response.status(200).json({});
 });
 
-const terminusOptions = {
-    healthChecks: {
-        '/livez': () => {},
-        '/readyz': readinessProbe({ app })
-      },
-    timeout: 1000, // in miliseconds
-    beforeShutdown: () => {
-        console.log("server will be closed")
-    }
-}
-
 // Just testing :P
 app.get('/ping', (request, response) => {
     response.json({
@@ -63,8 +68,8 @@ app.get('/ping', (request, response) => {
     });
 })
 
-const server = http.createServer(app)
 
+const server = http.createServer(app)
 
 createTerminus(server, terminusOptions)
 
